@@ -1,0 +1,9 @@
+{
+	"id": "goban-sgf",
+	"name": "Goban SGF",
+	"version": "1.0.0",
+	"minAppVersion": "0.7.0",
+	"description": "Obsidian plugin for recording Go games (SGF format goban).",
+	"author": "Stinson",
+	"isDesktopOnly": true
+}
