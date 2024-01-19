@@ -1,6 +1,6 @@
 {
 	"name": "goban-sgf",
-	"version": "0.7.0",
+	"version": "1.0.0",
 	"description": "Obsidian plugin for recording Go games (SGF format goban).",
 	"main": "main.js",
 	"type": "module",
