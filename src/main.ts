@@ -51,10 +51,6 @@ export default class GobanSGFPlugin extends Plugin {
     this.addSettingTab(new GobanSGFSettingsTab(this.app, this))
   }
 
-  onunload() {
-    this.app.workspace.detachLeavesOfType(VIEW_TYPE_GOBAN_SGF)
-  }
-
   async gobanProcessor(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
     ctx.addChild(new GobanCodeBlock(el, source, ctx, this.settings))
   }

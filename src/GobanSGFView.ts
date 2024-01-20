@@ -74,7 +74,7 @@ export default class GobanSGFView extends TextFileView implements HoverParent {
   }
 
   async onFileMetadataChange(file: TFile) {
-    var path = file.path
+    const path = file.path
     let md = await this.app.vault.adapter.read(path)
     this.onQuickPreview(file, md)
   }
