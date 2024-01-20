@@ -5,24 +5,24 @@ declare module '@sabaki/sgf' {
     stringifyVertex as sv,
     stringify as s,
   } from '@sabaki/sgf'
-  export default sgf as any
-  export const parseVertex = pv as any
-  export const parseCompressedVertices = pcv as any
-  export const stringifyVertex = sv as any
-  export const stringify = s as any
+  export default sgf
+  export const parseVertex = pv
+  export const parseCompressedVertices = pcv
+  export const stringifyVertex = sv
+  export const stringify = s
 }
 
 declare module '@sabaki/immutable-gametree' {
   import GameTree from '@sabaki/immutable-gametree'
-  export default GameTree as any
+  export default GameTree
 }
 
 declare module '@sabaki/boardmatcher' {
   import boardmatcher from '@sabaki/boardmatcher'
-  export default boardmatcher as any
+  export default boardmatcher
 }
 
 declare module '@sabaki/go-board' {
   import { fromDimensions as fd } from '@sabaki/go-board'
-  export const fromDimensions = fd as any
+  export const fromDimensions = fd
 }

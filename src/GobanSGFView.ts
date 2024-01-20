@@ -19,7 +19,7 @@ import {
   DEFAULT_SGF,
 } from './consts/consts'
 import GobanController from './GobanController'
-import { shallowObjEquals } from './utils/utils'
+import { shallowObjEquals, emptyEl } from './utils/utils'
 
 export default class GobanSGFView extends TextFileView implements HoverParent {
   plugin: GobanSGFPlugin
@@ -85,7 +85,7 @@ export default class GobanSGFView extends TextFileView implements HoverParent {
 
     if (this.gobanCtrl) {
       this.gobanCtrl.clear()
-      this.contentEl.innerHTML = ''
+      emptyEl(this.contentEl)
       this.gobanCtrl = null
     }
 
@@ -103,7 +103,7 @@ export default class GobanSGFView extends TextFileView implements HoverParent {
 
     if (this.gobanCtrl) {
       this.gobanCtrl.clear()
-      this.contentEl.innerHTML = ''
+      emptyEl(this.contentEl)
     }
 
     this.gobanCtrl = new GobanController(sgfStr, frontmatterData, this)
@@ -155,7 +155,7 @@ export default class GobanSGFView extends TextFileView implements HoverParent {
         .setTitle(`${t('OPEN_AS_MD')}`)
         .setIcon('document')
         .onClick(() => {
-          self.plugin.sgfFileModes[(self.leaf as any).id || self.file.path] = 'markdown'
+          self.plugin.sgfFileModes[(self.leaf as WorkspaceLeaf & { id?: string }).id || self.file.path] = 'markdown'
           self.plugin.setMarkdownView(self.leaf)
         })
         .setSection('pane')

@@ -381,7 +381,7 @@ export const getMoveInterpretation = (node, gameTree, treePosition) => {
       return ''
     }
 
-    return t(`BM_${diff[0]}-${diff[1]}_POINT` as any)
+    return t(`BM_${diff[0]}-${diff[1]}_POINT`)
   }
 
   const board = getBoard(gameTree, treePosition)
@@ -399,7 +399,7 @@ export const getMoveInterpretation = (node, gameTree, treePosition) => {
 export const getPatternNameI18NKey = (name: string): any => {
   let n = name
   n = n.replace(/\s/g, '_').toUpperCase()
-  return `BM_${n}` as any
+  return `BM_${n}`
 }
 
 export const getMatrixDict= (tree) => {

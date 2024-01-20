@@ -8,7 +8,10 @@ export const isTextLikeElement = (element: any) => {
   return (
     ['textarea', 'select'].includes(element.tagName.toLowerCase()) ||
     (element.tagName.toLowerCase() === 'input' &&
-      !['submit', 'reset', 'button', 'checkbox', 'radio', 'color', 'file'].includes(element?.type)) || element.isContentEditable
+      !['submit', 'reset', 'button', 'checkbox', 'radio', 'color', 'file'].includes(
+        element?.type
+      )) ||
+    element.isContentEditable
   )
 }
 
@@ -110,7 +113,10 @@ export const convertSize = (v: any): number | undefined => {
   return n > 25 ? 25 : n < 2 ? 2 : n
 }
 
-export const convertGobanRange = (v: string, size: number): { x: [number, number]; y: [number, number] } | undefined => {
+export const convertGobanRange = (
+  v: string,
+  size: number
+): { x: [number, number]; y: [number, number] } | undefined => {
   if (typeof v !== 'string') {
     return undefined
   }
@@ -120,22 +126,10 @@ export const convertGobanRange = (v: string, size: number): { x: [number, number
   try {
     let { x = [], y = [] } = JSON.parse(v)
     x = x.map((xi, i) =>
-      isNaN(Number(xi))
-        ? i === 0
-          ? 0
-          : size - 1
-        : Number(xi) >= size
-        ? size - 1
-        : Number(xi)
+      isNaN(Number(xi)) ? (i === 0 ? 0 : size - 1) : Number(xi) >= size ? size - 1 : Number(xi)
     )
     y = y.map((yi, i) =>
-      isNaN(Number(yi))
-        ? i === 0
-          ? 0
-          : size - 1
-        : Number(yi) >= size
-        ? size - 1
-        : Number(yi)
+      isNaN(Number(yi)) ? (i === 0 ? 0 : size - 1) : Number(yi) >= size ? size - 1 : Number(yi)
     )
     return { x: x[0] > x[1] ? [x[1], x[0]] : x, y: y[0] > y[1] ? [y[1], y[0]] : y }
   } catch (e) {
@@ -166,4 +160,10 @@ export const newLinkClick = (
   document.body.appendChild(link)
   link.click()
   link.remove()
+}
+
+export const emptyEl = (el: HTMLElement) => {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild)
+  }
 }

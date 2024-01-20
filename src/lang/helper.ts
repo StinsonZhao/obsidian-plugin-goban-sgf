@@ -9,6 +9,6 @@ const localeMap: { [k: string]: Partial<typeof en> } = {
 
 const locale = localeMap[LOCALE]
 
-export const t = (str: keyof typeof en): string => {
+export const t = (str: string): string => {
   return (locale && locale[str]) || en[str]
 }

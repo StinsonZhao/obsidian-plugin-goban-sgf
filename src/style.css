@@ -13,6 +13,11 @@ body.hide-status-bar .status-bar.status-bar.status-bar {
   display: none;
 }
 
+.goban-sgf-plugin-ctrl {
+  padding: 0px 16px 24px !important;
+  position: relative !important;
+}
+
 .goban-sgf-plugin-app {
   position: relative;
   z-index: 10;

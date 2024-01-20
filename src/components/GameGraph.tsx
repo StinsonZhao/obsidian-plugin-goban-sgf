@@ -231,7 +231,10 @@ const renderNodes = ({
               : 'circle', // Normal node
           current: isCurrentNode,
           onCurrentTrack,
-          fill: fillRGB ? `rgb(${(fillRGB as any).map((x) => x * opacity).join(',')})` : '',
+          fill:
+            typeof fillRGB !== 'string' && fillRGB
+              ? `rgb(${fillRGB.map((x) => x * opacity).join(',')})`
+              : '',
           nodeSize: nodeSize + 1,
           node,
           onNodeClick,

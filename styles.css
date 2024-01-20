@@ -570,11 +570,11 @@
 .goban-sgf-plugin-container :is(.inset-0) {
     inset: 0px;
 }
-.goban-sgf-plugin-container :is(.inset-4) {
-    inset: 1rem;
-}
 .goban-sgf-plugin-container :is(.inset-2) {
     inset: 0.5rem;
+}
+.goban-sgf-plugin-container :is(.inset-4) {
+    inset: 1rem;
 }
 .goban-sgf-plugin-container :is(.-bottom-1) {
     bottom: -0.25rem;
@@ -590,6 +590,12 @@
 }
 .goban-sgf-plugin-container :is(.-right-2\.5) {
     right: -0.625rem;
+}
+.goban-sgf-plugin-container :is(.-top-0) {
+    top: -0px;
+}
+.goban-sgf-plugin-container :is(.-top-0\.5) {
+    top: -0.125rem;
 }
 .goban-sgf-plugin-container :is(.-top-1) {
     top: -0.25rem;
@@ -623,27 +629,6 @@
 }
 .goban-sgf-plugin-container :is(.top-\[50\%\]) {
     top: 50%;
-}
-.goban-sgf-plugin-container :is(.-top-0) {
-    top: -0px;
-}
-.goban-sgf-plugin-container :is(.-top-0\.5) {
-    top: -0.125rem;
-}
-.goban-sgf-plugin-container :is(.bottom-2) {
-    bottom: 0.5rem;
-}
-.goban-sgf-plugin-container :is(.left-2) {
-    left: 0.5rem;
-}
-.goban-sgf-plugin-container :is(.right-2) {
-    right: 0.5rem;
-}
-.goban-sgf-plugin-container :is(.top-4) {
-    top: 1rem;
-}
-.goban-sgf-plugin-container :is(.top-3) {
-    top: 0.75rem;
 }
 .goban-sgf-plugin-container :is(.z-0) {
     z-index: 0;
@@ -699,14 +684,6 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
-.goban-sgf-plugin-container :is(.mx-1) {
-    margin-left: 0.25rem;
-    margin-right: 0.25rem;
-}
-.goban-sgf-plugin-container :is(.my-1) {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-}
 .goban-sgf-plugin-container :is(.mb-1) {
     margin-bottom: 0.25rem;
 }
@@ -721,6 +698,12 @@
 }
 .goban-sgf-plugin-container :is(.mb-6) {
     margin-bottom: 1.5rem;
+}
+.goban-sgf-plugin-container :is(.ml-0) {
+    margin-left: 0px;
+}
+.goban-sgf-plugin-container :is(.ml-0\.5) {
+    margin-left: 0.125rem;
 }
 .goban-sgf-plugin-container :is(.ml-1) {
     margin-left: 0.25rem;
@@ -739,6 +722,9 @@
 }
 .goban-sgf-plugin-container :is(.mr-0\.5) {
     margin-right: 0.125rem;
+}
+.goban-sgf-plugin-container :is(.mr-1) {
+    margin-right: 0.25rem;
 }
 .goban-sgf-plugin-container :is(.mr-2) {
     margin-right: 0.5rem;
@@ -761,15 +747,6 @@
 .goban-sgf-plugin-container :is(.mt-6) {
     margin-top: 1.5rem;
 }
-.goban-sgf-plugin-container :is(.mr-1) {
-    margin-right: 0.25rem;
-}
-.goban-sgf-plugin-container :is(.ml-0) {
-    margin-left: 0px;
-}
-.goban-sgf-plugin-container :is(.ml-0\.5) {
-    margin-left: 0.125rem;
-}
 .goban-sgf-plugin-container :is(.box-border) {
     box-sizing: border-box;
 }
@@ -790,6 +767,9 @@
 }
 .goban-sgf-plugin-container :is(.h-0\.5) {
     height: 0.125rem;
+}
+.goban-sgf-plugin-container :is(.h-1) {
+    height: 0.25rem;
 }
 .goban-sgf-plugin-container :is(.h-10) {
     height: 2.5rem;
@@ -830,11 +810,8 @@
 .goban-sgf-plugin-container :is(.h-full) {
     height: 100%;
 }
-.goban-sgf-plugin-container :is(.h-1) {
-    height: 0.25rem;
-}
-.goban-sgf-plugin-container :is(.h-\[600px\]) {
-    height: 600px;
+.goban-sgf-plugin-container :is(.w-1) {
+    width: 0.25rem;
 }
 .goban-sgf-plugin-container :is(.w-24) {
     width: 6rem;
@@ -875,6 +852,9 @@
 .goban-sgf-plugin-container :is(.w-\[6px\]) {
     width: 6px;
 }
+.goban-sgf-plugin-container :is(.w-\[80\%\]) {
+    width: 80%;
+}
 .goban-sgf-plugin-container :is(.w-\[calc\(50\%-12px\)\]) {
     width: calc(50% - 12px);
 }
@@ -883,18 +863,6 @@
 }
 .goban-sgf-plugin-container :is(.w-full) {
     width: 100%;
-}
-.goban-sgf-plugin-container :is(.w-\[80\%\]) {
-    width: 80%;
-}
-.goban-sgf-plugin-container :is(.w-0) {
-    width: 0px;
-}
-.goban-sgf-plugin-container :is(.w-0\.5) {
-    width: 0.125rem;
-}
-.goban-sgf-plugin-container :is(.w-1) {
-    width: 0.25rem;
 }
 .goban-sgf-plugin-container :is(.min-w-80) {
     min-width: 20rem;
@@ -1141,6 +1109,9 @@
 .goban-sgf-plugin-container :is(.bg-\[var\(--text-accent\)\]) {
     background-color: var(--text-accent);
 }
+.goban-sgf-plugin-container :is(.bg-\[var\(--text-faint\)\]) {
+    background-color: var(--text-faint);
+}
 .goban-sgf-plugin-container :is(.bg-black) {
     --tw-bg-opacity: 1;
     background-color: rgb(0 0 0 / var(--tw-bg-opacity));
@@ -1155,9 +1126,6 @@
 .goban-sgf-plugin-container :is(.bg-white) {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-.goban-sgf-plugin-container :is(.bg-\[var\(--text-faint\)\]) {
-    background-color: var(--text-faint);
 }
 .goban-sgf-plugin-container :is(.fill-gray-400) {
     fill: #9ca3af;
@@ -1195,11 +1163,19 @@
 .goban-sgf-plugin-container :is(.p-2) {
     padding: 0.5rem;
 }
+.goban-sgf-plugin-container :is(.p-3) {
+    padding: 0.75rem;
+}
 .goban-sgf-plugin-container :is(.p-4) {
     padding: 1rem;
 }
-.goban-sgf-plugin-container :is(.p-3) {
-    padding: 0.75rem;
+.goban-sgf-plugin-container :is(.px-0) {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.goban-sgf-plugin-container :is(.px-0\.5) {
+    padding-left: 0.125rem;
+    padding-right: 0.125rem;
 }
 .goban-sgf-plugin-container :is(.px-2) {
     padding-left: 0.5rem;
@@ -1228,14 +1204,6 @@
 .goban-sgf-plugin-container :is(.py-2) {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-}
-.goban-sgf-plugin-container :is(.px-0) {
-    padding-left: 0px;
-    padding-right: 0px;
-}
-.goban-sgf-plugin-container :is(.px-0\.5) {
-    padding-left: 0.125rem;
-    padding-right: 0.125rem;
 }
 .goban-sgf-plugin-container :is(.pb-2) {
     padding-bottom: 0.5rem;
@@ -1402,6 +1370,11 @@ body {
 
 body.hide-status-bar .status-bar.status-bar.status-bar {
   display: none;
+}
+
+.goban-sgf-plugin-ctrl {
+  padding: 0px 16px 24px !important;
+  position: relative !important;
 }
 
 .goban-sgf-plugin-app {

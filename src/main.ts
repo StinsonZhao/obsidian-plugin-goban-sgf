@@ -266,10 +266,10 @@ export default class GobanSGFPlugin extends Plugin {
         const gobanView = this.app.workspace.getActiveViewOfType(GobanSGFView)
         const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView)
         if (gobanView != null) {
-          this.sgfFileModes[(gobanView.leaf as any).id || gobanView.file.path] = 'markdown'
+          this.sgfFileModes[(gobanView.leaf as WorkspaceLeaf & { id?: string }).id || gobanView.file.path] = 'markdown'
           this.setMarkdownView(gobanView.leaf)
         } else if (markdownView != null) {
-          this.sgfFileModes[(markdownView.leaf as any).id || markdownView.file.path] =
+          this.sgfFileModes[(markdownView.leaf as WorkspaceLeaf & { id?: string }).id || markdownView.file.path] =
             VIEW_TYPE_GOBAN_SGF
           this.setMarkdownView(markdownView.leaf)
         }

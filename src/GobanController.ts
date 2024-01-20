@@ -57,9 +57,7 @@ export default class GobanController {
       this.frontmatterData,
       this.pluginSettings
     )
-    this.containerEL.style.paddingTop = '0px'
-    this.containerEL.style.paddingBottom = '24px'
-    this.containerEL.style.position = 'relative'
+    this.containerEL.classList.add('goban-sgf-plugin-ctrl')
     this.containerEL.classList.add(CONTAINER_HTML_TOKEN, `${CONTAINER_HTML_TOKEN}-${this.ctrlID}`)
     this.containerEL.id = `${CONTAINER_HTML_TOKEN}-${this.ctrlID}`
 
