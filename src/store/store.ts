@@ -134,12 +134,14 @@ export const createStore = (
     if (showNextMoves.value || showSiblings.value) {
       ghostStoneMap = board.value.signMap.map((row) => row.map((_) => null))
 
-      if (showSiblings.value) {
+      if (showSiblings.value && board.value?.siblingsInfo?.length) {
         for (let v in board.value.siblingsInfo) {
           let [x, y] = v.split(',').map((x) => +x)
           let { sign } = board.value.siblingsInfo[v]
 
-          ghostStoneMap[y][x] = { sign, faint: showNextMoves }
+          if (y >=0 && x >=0) {
+            ghostStoneMap[y][x] = { sign, faint: showNextMoves }
+          }
         }
       }
 
@@ -148,7 +150,9 @@ export const createStore = (
           let [x, y] = v.split(',').map((x) => +x)
           let { sign, type } = board.value.childrenInfo[v]
 
-          ghostStoneMap[y][x] = { sign, type }
+          if (y >=0 && x >=0) {
+            ghostStoneMap[y][x] = { sign, type }
+          }
         }
       }
     }
