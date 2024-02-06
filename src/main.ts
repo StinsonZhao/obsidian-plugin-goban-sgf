@@ -251,7 +251,7 @@ export default class GobanSGFPlugin extends Plugin {
 
   private addCommands() {
     this.addCommand({
-      id: 'Create New Goban',
+      id: 'create-new-goban',
       name: `${t('CREATE_NEW')}`,
       callback: () => {
         this.createAndOpenGoban()
@@ -259,7 +259,7 @@ export default class GobanSGFPlugin extends Plugin {
     })
 
     this.addCommand({
-      id: 'Toggle to Markdown or Goban',
+      id: 'toggle-to-markdown-or-goban',
       name: `${t('TOGGLE_MD_GOBAN')}`,
       mobileOnly: false,
       callback: () => {
