@@ -1,6 +1,6 @@
 {
 	"name": "goban-sgf",
-	"version": "1.0.0",
+	"version": "1.2.2",
 	"description": "Play and record Go games, using SGF format.",
 	"main": "main.js",
 	"type": "module",
