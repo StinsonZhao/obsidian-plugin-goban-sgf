@@ -107,7 +107,7 @@ export const mergeSettings = (
   }
 
   for (let k in pa) {
-    if (k === 'size') {
+    if (k === 'size' || pa[k] === undefined) {
       continue
     } else if (k === 'gobanRange') {
       try {

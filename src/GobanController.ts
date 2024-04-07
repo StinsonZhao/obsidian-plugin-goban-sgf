@@ -1,3 +1,4 @@
+import { TFile } from 'obsidian'
 import {
   GobanSGFPluginSettings,
   DEFAULT_SETTINGS,
@@ -38,6 +39,7 @@ export default class GobanController {
   frontmatterData: GobanSGFPluginFrontmatterSettings
   pluginSettings: GobanSGFPluginSettings
   needRerender: boolean = false
+  file: TFile
 
   constructor(
     sgfStr: string,
@@ -50,6 +52,7 @@ export default class GobanController {
     }
     this.ctrlID = getAutoIncrID().toString()
     this.view = view
+    this.file = view.file
     this.containerEL = view.contentEl
     this.frontmatterData = frontmatterData
     this.pluginSettings = Object.assign({}, DEFAULT_SETTINGS, view.plugin.settings)
@@ -138,7 +141,9 @@ export default class GobanController {
   }
 
   async saveFile() {
-    const fm = this.frontmatterData
+    const self = this
+    const file = this.file
+    const fm = self.frontmatterData
     if (!fm[FRONTMATTER_KEY]) {
       fm[FRONTMATTER_KEY] = process.env.PLUGIN_VERSION
     }
@@ -146,14 +151,14 @@ export default class GobanController {
       fm.tags = fm.tags ? [...fm.tags, 'goban'] : ['goban']
     }
     const frontmatterPart = stringifyFrontmatterData(fm)
-    const fileCont = `${frontmatterPart}\n${genMarkdownSGFSection(this.sgfEntry.sgf)}`
-    await this.view.app.vault.modify(this.view.file, fileCont)
+    const fileCont = `${frontmatterPart}\n${genMarkdownSGFSection(self.sgfEntry.sgf)}`
+    await self.view.app.vault.modify(file, fileCont)
   }
 
   clear() {
-    if (this.saveTimer) {
-      clearTimeout(this.saveTimer)
-      this.saveTimer = null
-    }
+    // if (this.saveTimer) {
+    //   clearTimeout(this.saveTimer)
+    //   this.saveTimer = null
+    // }
   }
 }

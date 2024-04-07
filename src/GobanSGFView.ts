@@ -88,13 +88,6 @@ export default class GobanSGFView extends TextFileView implements HoverParent {
     this.plugin.setMarkdownView(this.leaf)
   }
 
-  async onUnloadFile(file: TFile) {
-    if (this.gobanCtrl) {
-      await this.gobanCtrl.saveFile()
-      this.gobanCtrl.clear()
-    }
-  }
-
   async setViewData(data: string = DEFAULT_DATA, clear: boolean = false) {
     data = this.data = data.replaceAll('\r\n', '\n').replaceAll('\r', '\n')
     const { mdContent, frontmatterData } = this.parseMd(this.data)
