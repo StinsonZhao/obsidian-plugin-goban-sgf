@@ -14,7 +14,6 @@ import { t } from './lang/helper'
 import {
   VIEW_TYPE_GOBAN_SGF,
   DEFAULT_DATA,
-  FRONT_MATTER_REGEX,
   SGF_CONTENT_REGEX,
   DEFAULT_SGF,
 } from './consts/consts'
@@ -24,7 +23,6 @@ import { shallowObjEquals, emptyEl } from './utils/utils'
 export default class GobanSGFView extends TextFileView implements HoverParent {
   plugin: GobanSGFPlugin
   hoverPopover: HoverPopover | null
-  saveTimer: NodeJS.Timeout | null
   container: Element
   fileCache: any
   gobanCtrl: GobanController
@@ -53,8 +51,6 @@ export default class GobanSGFView extends TextFileView implements HoverParent {
   }
 
   clear() {
-    this.saveTimer && clearTimeout(this.saveTimer)
-    this.saveTimer = null
   }
 
   getViewData() {
@@ -92,7 +88,14 @@ export default class GobanSGFView extends TextFileView implements HoverParent {
     this.plugin.setMarkdownView(this.leaf)
   }
 
-  setViewData(data: string = DEFAULT_DATA, clear: boolean = false) {
+  async onUnloadFile(file: TFile) {
+    if (this.gobanCtrl) {
+      await this.gobanCtrl.saveFile()
+      this.gobanCtrl.clear()
+    }
+  }
+
+  async setViewData(data: string = DEFAULT_DATA, clear: boolean = false) {
     data = this.data = data.replaceAll('\r\n', '\n').replaceAll('\r', '\n')
     const { mdContent, frontmatterData } = this.parseMd(this.data)
     const sgfStr = this.extractSGFFromMD(mdContent)

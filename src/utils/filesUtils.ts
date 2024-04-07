@@ -38,9 +38,14 @@ export const getNewUniqueFilepath = (
   let file: TAbstractFile = vault.getAbstractFileByPath(fname)
   let i = 0
   const extension = fullFilename.slice(fullFilename.lastIndexOf('.'))
+  const pureName = fullFilename.slice(0, fullFilename.lastIndexOf(extension))
   while (file) {
+    let renamed = pureName + '_' + i
+    if (pureName.endsWith('.sgf')) {
+      renamed = pureName.slice(0, pureName.lastIndexOf('.sgf')) + '_' + i + '.sgf'
+    }
     fname = normalizePath(
-      `${folderpath}/${fullFilename.slice(0, fullFilename.lastIndexOf(extension))}_${i}${extension}`
+      `${folderpath}/${renamed}${extension}`
     )
     i++
     file = vault.getAbstractFileByPath(fname)

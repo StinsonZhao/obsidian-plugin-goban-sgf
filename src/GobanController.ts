@@ -150,5 +150,10 @@ export default class GobanController {
     await this.view.app.vault.modify(this.view.file, fileCont)
   }
 
-  clear() {}
+  clear() {
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer)
+      this.saveTimer = null
+    }
+  }
 }
