@@ -346,6 +346,15 @@ const GameGraph = () => {
   const [nodeMenu, setNodeMenu] = useState(null)
   const handleNodeMenu = useCallback(
     (node, { x, y }) => {
+      console.log('┍━━━━━setNodeMenu━━━━━━━━━━━━━━━━━━━━┑')
+      console.log({
+        node,
+        position: {
+          x,
+          y,
+        },
+      })
+      console.log('┕━━━━━━━━━━━━━━━━━━━━━━━━━┙')
       setNodeMenu({
         node,
         position: {
@@ -440,13 +449,13 @@ const GameGraph = () => {
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
     document.addEventListener('click', hideNodeMenu)
-    document.addEventListener('contextmenu', hideNodeMenu)
+    // document.addEventListener('contextmenu', hideNodeMenu)
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
       document.removeEventListener('click', hideNodeMenu)
-      document.removeEventListener('contextmenu', hideNodeMenu)
+      // document.removeEventListener('contextmenu', hideNodeMenu)
     }
   }, [])
 
@@ -682,8 +691,8 @@ const GameGraph = () => {
             </svg>
           ) : null}
 
-          {nodeMenu !== null ? (
-            <div ref={menuRef} class="absolute inset-0 z-50">
+          <div ref={menuRef} class={`absolute ${nodeMenu !== null ? 'inset-0 z-50' : '-z-10 pointer-events-none'}`}>
+            {nodeMenu !== null ? (
               <div
                 class="absolute whitespace-pre py-2 px-3 bg-[var(--background-secondary-alt)] text-[var(--text-normal)] transition-all rounded-l rounded-br shadow-md border-[var(--background-modifier-border-hover)] border border-solid text-xs origin-top-right transform -translate-x-full"
                 style={{
@@ -720,8 +729,8 @@ const GameGraph = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          ) : null}
+            ) : null}
+          </div>
 
           <div
             className={`absolute whitespace-pre z-40  flex items-center h-4 text-xs transform p-1 -translate-x-full transition opacity-0 ${

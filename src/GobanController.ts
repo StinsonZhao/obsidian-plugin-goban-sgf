@@ -141,9 +141,8 @@ export default class GobanController {
   }
 
   async saveFile() {
-    const self = this
     const file = this.file
-    const fm = self.frontmatterData
+    const fm = this.frontmatterData
     if (!fm[FRONTMATTER_KEY]) {
       fm[FRONTMATTER_KEY] = process.env.PLUGIN_VERSION
     }
@@ -151,14 +150,10 @@ export default class GobanController {
       fm.tags = fm.tags ? [...fm.tags, 'goban'] : ['goban']
     }
     const frontmatterPart = stringifyFrontmatterData(fm)
-    const fileCont = `${frontmatterPart}\n${genMarkdownSGFSection(self.sgfEntry.sgf)}`
-    await self.view.app.vault.modify(file, fileCont)
+    const fileCont = `${frontmatterPart}\n${genMarkdownSGFSection(this.sgfEntry.sgf)}`
+    await this.view.app.vault.modify(file, fileCont)
   }
 
   clear() {
-    // if (this.saveTimer) {
-    //   clearTimeout(this.saveTimer)
-    //   this.saveTimer = null
-    // }
   }
 }
