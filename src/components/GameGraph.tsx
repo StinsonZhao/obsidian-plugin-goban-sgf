@@ -15,6 +15,7 @@ import { BODY_DATA_HTML_TOKEN } from '@/consts/consts'
 import { getMatrixWidth } from '@/store/common'
 import { useMeasure } from '@/hooks/useMeasure'
 import { h } from 'preact'
+import { createPortal } from 'preact/compat'
 import { t } from '@/lang/helper'
 import modals from '@/modals/modals'
 import Goto from '@/icons/goto'
@@ -22,6 +23,8 @@ import Goto from '@/icons/goto'
 const GRID_SIZE = 24
 const NODE_SIZE = 5
 const PADDING = 8
+const MENU_VIEWPORT_MARGIN = 8
+const MENU_CURSOR_GAP = 20
 
 const GameGraphNode = ({
   position,
@@ -344,27 +347,50 @@ const GameGraph = () => {
   const menuRef = useRef(null)
 
   const [nodeMenu, setNodeMenu] = useState(null)
-  const handleNodeMenu = useCallback(
-    (node, { x, y }) => {
-      console.log('┍━━━━━setNodeMenu━━━━━━━━━━━━━━━━━━━━┑')
-      console.log({
-        node,
-        position: {
-          x,
-          y,
-        },
-      })
-      console.log('┕━━━━━━━━━━━━━━━━━━━━━━━━━┙')
-      setNodeMenu({
-        node,
-        position: {
-          x,
-          y,
-        },
-      })
-    },
-    [left, top]
-  )
+  const [menuPosition, setMenuPosition] = useState(null)
+  const handleNodeMenu = useCallback((node, { x, y }) => {
+    setMenuPosition(null)
+    setNodeMenu({
+      node,
+      position: {
+        x,
+        y,
+      },
+    })
+  }, [])
+
+  // Measure the menu after it mounts, then clamp/flip it into the viewport.
+  useLayoutEffect(() => {
+    if (nodeMenu === null || menuRef.current === null) {
+      return
+    }
+
+    const { width, height } = menuRef.current.getBoundingClientRect()
+    const viewportWidth = document.documentElement.clientWidth
+    const viewportHeight = document.documentElement.clientHeight
+    const { x, y } = nodeMenu.position
+
+    let left = x - MENU_CURSOR_GAP - width
+    left = Math.max(
+      MENU_VIEWPORT_MARGIN,
+      Math.min(left, viewportWidth - width - MENU_VIEWPORT_MARGIN)
+    )
+
+    let top = y
+    let flipped = false
+    if (top + height > viewportHeight - MENU_VIEWPORT_MARGIN) {
+      const above = y - height
+      if (above >= MENU_VIEWPORT_MARGIN) {
+        top = above
+        flipped = true
+      } else {
+        top = viewportHeight - height - MENU_VIEWPORT_MARGIN
+      }
+    }
+    top = Math.max(MENU_VIEWPORT_MARGIN, top)
+
+    setMenuPosition({ left, top, flipped })
+  }, [nodeMenu])
 
   const updateCameraPosition = useCallback(() => {
     const matrix = matrixDict.value[0]
@@ -514,6 +540,7 @@ const GameGraph = () => {
         return
       }
       let isConfirm = false
+      setNodeMenu(null)
       try {
         delHandlingRef.current = true
 
@@ -532,7 +559,6 @@ const GameGraph = () => {
         delHandlingRef.current = false
       }
 
-      setNodeMenu(null)
       if (!isConfirm) {
         return
       }
@@ -691,46 +717,65 @@ const GameGraph = () => {
             </svg>
           ) : null}
 
-          <div ref={menuRef} class={`absolute ${nodeMenu !== null ? 'inset-0 z-50' : '-z-10 pointer-events-none'}`}>
-            {nodeMenu !== null ? (
-              <div
-                class="absolute whitespace-pre py-2 px-3 bg-[var(--background-secondary-alt)] text-[var(--text-normal)] transition-all rounded-l rounded-br shadow-md border-[var(--background-modifier-border-hover)] border border-solid text-xs origin-top-right transform -translate-x-full"
-                style={{
-                  left: nodeMenu.position.x - left - 20,
-                  top: nodeMenu.position.y - top,
-                }}
-              >
-                <span className="block absolute right-[-4px] top-[-1px] h-[6px] w-[6px] border-t border-r border-solid border-[var(--background-modifier-border-hover)] bg-[var(--background-secondary-alt)] transform skew-x-[-45deg]"></span>
-                <div>
+          {/* Body portal: workspace leaves use `contain: strict`, so fixed descendants would
+              otherwise be positioned relative to the leaf. The wrapper restores Tailwind scope. */}
+          {nodeMenu !== null
+            ? createPortal(
+                <div class="goban-sgf-plugin-container">
                   <div
-                    className="flex items-center cursor-pointer h-8 hover:bg-[rgba(0,0,0,0.08)] rounded px-2 dark:hover:bg-[rgba(255,255,255,0.08)] text-[var(--text-normal)]"
-                    onClick={() => handleSetMain(nodeMenu.node)}
+                    ref={menuRef}
+                    class="whitespace-pre py-2 px-3 bg-[var(--background-secondary-alt)] text-[var(--text-normal)] rounded-l rounded-br shadow-md border-[var(--background-modifier-border-hover)] border border-solid text-xs"
+                    style={{
+                      position: 'fixed',
+                      zIndex: 100,
+                      pointerEvents: 'auto',
+                      left: menuPosition ? menuPosition.left : 0,
+                      top: menuPosition ? menuPosition.top : 0,
+                      visibility: menuPosition ? 'visible' : 'hidden',
+                    }}
                   >
-                    {t('SET_TO_MAIN')}
+                    <span
+                      className="block absolute right-[-4px] h-[6px] w-[6px] border-solid border-[var(--background-modifier-border-hover)] bg-[var(--background-secondary-alt)] transform skew-x-[-45deg]"
+                      style={{
+                        top: menuPosition && menuPosition.flipped ? 'auto' : '-1px',
+                        bottom: menuPosition && menuPosition.flipped ? '-1px' : 'auto',
+                        borderTopWidth: menuPosition && menuPosition.flipped ? '0' : '1px',
+                        borderBottomWidth: menuPosition && menuPosition.flipped ? '1px' : '0',
+                        borderRightWidth: '1px',
+                      }}
+                    ></span>
+                    <div>
+                      <div
+                        className="flex items-center cursor-pointer h-8 hover:bg-[rgba(0,0,0,0.08)] rounded px-2 dark:hover:bg-[rgba(255,255,255,0.08)] text-[var(--text-normal)]"
+                        onClick={() => handleSetMain(nodeMenu.node)}
+                      >
+                        {t('SET_TO_MAIN')}
+                      </div>
+                      <div
+                        className="flex items-center cursor-pointer h-8 hover:bg-[rgba(0,0,0,0.08)] rounded px-2 dark:hover:bg-[rgba(255,255,255,0.08)] text-[var(--text-normal)]"
+                        onClick={() => handleMove(nodeMenu.node, -1)}
+                      >
+                        {t('MOVE_LEFT')}
+                      </div>
+                      <div
+                        className="flex items-center cursor-pointer h-8 hover:bg-[rgba(0,0,0,0.08)] rounded px-2 dark:hover:bg-[rgba(255,255,255,0.08)] text-[var(--text-normal)]"
+                        onClick={() => handleMove(nodeMenu.node, 1)}
+                      >
+                        {t('MOVE_RIGHT')}
+                      </div>
+                      <div className="h-[1px] w-full border-t border-dashed border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.1)] my-2" />
+                      <div
+                        className="flex items-center cursor-pointer h-8 hover:bg-[var(--background-modifier-error)] rounded px-2 dark:hover:bg-[var(--background-modifier-error)] text-[var(--text-normal)] hover:text-white"
+                        onClick={() => handleDelNode(nodeMenu.node)}
+                      >
+                        {t('DELETE_NODE')}
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    className="flex items-center cursor-pointer h-8 hover:bg-[rgba(0,0,0,0.08)] rounded px-2 dark:hover:bg-[rgba(255,255,255,0.08)] text-[var(--text-normal)]"
-                    onClick={() => handleMove(nodeMenu.node, -1)}
-                  >
-                    {t('MOVE_LEFT')}
-                  </div>
-                  <div
-                    className="flex items-center cursor-pointer h-8 hover:bg-[rgba(0,0,0,0.08)] rounded px-2 dark:hover:bg-[rgba(255,255,255,0.08)] text-[var(--text-normal)]"
-                    onClick={() => handleMove(nodeMenu.node, 1)}
-                  >
-                    {t('MOVE_RIGHT')}
-                  </div>
-                  <div className="h-[1px] w-full border-t border-dashed border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.1)] my-2" />
-                  <div
-                    className="flex items-center cursor-pointer h-8 hover:bg-[var(--background-modifier-error)] rounded px-2 dark:hover:bg-[var(--background-modifier-error)] text-[var(--text-normal)] hover:text-white"
-                    onClick={() => handleDelNode(nodeMenu.node)}
-                  >
-                    {t('DELETE_NODE')}
-                  </div>
-                </div>
-              </div>
-            ) : null}
-          </div>
+                </div>,
+                document.body
+              )
+            : null}
 
           <div
             className={`absolute whitespace-pre z-40  flex items-center h-4 text-xs transform p-1 -translate-x-full transition opacity-0 ${
